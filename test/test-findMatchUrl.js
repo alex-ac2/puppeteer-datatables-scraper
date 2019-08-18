@@ -19,17 +19,49 @@ describe ('Puppeteer-DataTables-Scraper:', () => {
 
   describe ('Google-HomePage-Selectors', () => {
 
-    it('should output null', (done) => {
+    it('Random-Null-Selector should output false', (done) => {
       puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async browser => {
         const page = await browser.newPage();
         await page.goto('https://www.google.com');
         
-        const nullSelector = await page.$('random-selector-dsfsdfsdfsd'); // Random selector to return null
+        const nullSelector = await page.$('random-selector-dsfsdfsdfsd') !== null; // Random selector to return null
         await browser.close();
-        return nullSelector
+        return nullSelector;
       })
       .then( (result) => {
-        expect(result).to.equal(null);
+        expect(result).to.equal(false);
+        done();
+      })
+      .catch(err => console.log(err));    
+    });
+
+    it('Google-Search-Input-Selector should output true', (done) => {
+      puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async browser => {
+        const page = await browser.newPage();
+        await page.goto('https://www.google.com');
+        
+        const googleSearchInputSelector = await page.$('input[aria-label="Search"]') !== null;
+        await browser.close();
+        return googleSearchInputSelector
+      })
+      .then( (result) => {
+        expect(result).to.equal(true);
+        done();
+      })
+      .catch(err => console.log(err));    
+    });
+
+    it('Google-Search-Button-Selector should output true', (done) => {
+      puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async browser => {
+        const page = await browser.newPage();
+        await page.goto('https://www.google.com');
+        
+        const googleSearchButtonSelector = await page.$('input[aria-label="Google Search"]') !== null;
+        await browser.close();
+        return googleSearchButtonSelector
+      })
+      .then( (result) => {
+        expect(result).to.equal(true);
         done();
       })
       .catch(err => console.log(err));    
@@ -38,13 +70,13 @@ describe ('Puppeteer-DataTables-Scraper:', () => {
   });
 
   describe ('Find-Match-Url Module', () => {
-    it('should output https://datatables.net/faqs/', (done) => {
+    it('Match url should output https://datatables.net/faqs/', (done) => {
       const searchText = 'datatables faq';
       const matchUrl = findMatchUrl(searchText, searchResultsArray);
       expect(matchUrl).to.equal('https://datatables.net/faqs/');
       done();
     });
-    it('should output https://datatables.net/', (done) => {
+    it('Match url should output https://datatables.net/', (done) => {
       const searchText = 'datatables';
       const matchUrl = findMatchUrl(searchText, searchResultsArray);
       expect(matchUrl).to.equal('https://datatables.net/');
