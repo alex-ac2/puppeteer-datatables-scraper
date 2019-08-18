@@ -18,28 +18,23 @@ const searchResultsArray = [
 describe ('Puppeteer-DataTables-Scraper:', () => {
 
   describe ('Google-HomePage-Selectors', () => {
-    let nullSelector = null;
-
 
     it('should output null', (done) => {
-      //const nullSelector = page.$('hfjhsdjkfhsjkdfhsjkd');
       puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async browser => {
         const page = await browser.newPage();
         await page.goto('https://www.google.com');
         
-        console.log('Done scraping');
-        const nullSelector = await page.$('dsfsdfsdfsd');
+        const nullSelector = await page.$('random-selector-dsfsdfsdfsd'); // Random selector to return null
         await browser.close();
         return nullSelector
       })
-      .then((result) => {
-        console.log('result:', result);
+      .then( (result) => {
         expect(result).to.equal(null);
         done();
       })
-      .catch(err => console.log(err));      
+      .catch(err => console.log(err));    
     });
-  
+    
   });
 
   describe ('Find-Match-Url Module', () => {
