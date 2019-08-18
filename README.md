@@ -10,16 +10,37 @@ This application relies on running a browserless instance of chrome. Please ensu
     git clone https://github.com/alex-ac2/puppeteer-datatables-scraper.git
     ```
 
+[2] Run browserless/chrome image
+    ```
+    docker run -p 8080:3000 --restart always -d --name browserless browserless/chrome
+    ```
 
+[3] Install dependencies
+    ```
+    npm install
+    ```
 
+[4] Run scraper!
+    ```
+    npm start
+    ```
 
-
+**ON Complete**: Navigate to the `csv_output` directory to view your newly exported output-[timestamp].csv file
 
 #### Running tests
 
 Test modules have been created using Mocha and Chai to help maintain the scraper and ensure `querySelectors` are still present on both Google's and DataTables's homepage.  
 
-[1] Run test module 
+Run test module 
     ```
     npm test
     ```
+
+---
+
+#### Dependencies
+  - puppeteer
+  - string-similarity
+  - chai
+  - mocha
+
