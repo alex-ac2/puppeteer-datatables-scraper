@@ -29,8 +29,8 @@ describe ('Puppeteer-DataTables-Scraper:', () => {
       })
       .then( (result) => {
         expect(result).to.equal(false);
-        done();
       })
+      .then(done, done)
       .catch(err => console.log(err));    
     });
 
@@ -41,12 +41,12 @@ describe ('Puppeteer-DataTables-Scraper:', () => {
         
         const googleSearchInputSelector = await page.$('input[aria-label="Search"]') !== null;
         await browser.close();
-        return googleSearchInputSelector
+        return googleSearchInputSelector;
       })
       .then( (result) => {
         expect(result).to.equal(true);
-        done();
       })
+      .then(done, done)
       .catch(err => console.log(err));    
     });
 
@@ -57,12 +57,12 @@ describe ('Puppeteer-DataTables-Scraper:', () => {
         
         const googleSearchButtonSelector = await page.$('input[aria-label="Google Search"]') !== null;
         await browser.close();
-        return googleSearchButtonSelector
+        return googleSearchButtonSelector;
       })
       .then( (result) => {
         expect(result).to.equal(true);
-        done();
       })
+      .then(done, done)
       .catch(err => console.log(err));    
     });
     
@@ -75,11 +75,46 @@ describe ('Puppeteer-DataTables-Scraper:', () => {
       expect(matchUrl).to.equal('https://datatables.net/faqs/');
       done();
     });
+
     it('Match url should output https://datatables.net/', (done) => {
       const searchText = 'datatables';
       const matchUrl = findMatchUrl(searchText, searchResultsSample);
       expect(matchUrl).to.equal('https://datatables.net/');
       done();
+    });
+  });
+
+  describe ('DataTables-HomePage-Selectors', () => {
+    it('DataTables-Paginate-Button should output true', (done) => {
+      puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async browser => {
+        const page = await browser.newPage();
+        await page.goto('https://datatables.net/');
+        
+        const datatablesPaginateButton = await page.$('#example_paginate > span > a.paginate_button') !== null;
+        await browser.close();
+        return datatablesPaginateButton;
+      })
+      .then( (result) => {
+        expect(result).to.equal(true);
+      })
+      .then(done, done)
+      .catch(err => console.log(err));    
+    });
+
+    it('DataTables-Example-Table should output true', (done) => {
+      puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async browser => {
+        const page = await browser.newPage();
+        await page.goto('https://datatables.net/');
+        
+        const datatablesPaginateButton = await page.$('table#example') !== null;
+        await browser.close();
+        return datatablesPaginateButton;
+      })
+      .then( (result) => {
+        expect(result).to.equal(true);
+      })
+      .then(done, done)
+      .catch(err => console.log(err));
     });
   });
 
