@@ -18,7 +18,7 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
     return  Array.from(document.querySelectorAll('div.r > a')).map( (entry) => entry.href )
   })
   console.log('SearchResultsArray: ', searchResultsArray);
-  const matchUrl = findMatchUrl(searchText, searchResultsArray)
+  const matchUrl = findMatchUrl(searchText, searchResultsArray);
   console.log('MATCH-URL: ', matchUrl);
 
   // Navigate to matchUrl
