@@ -5,7 +5,8 @@ const os = require('os');
 module.exports = {
 
   exportToCsv: (objectArray, callback) => {
-    const filename = path.join(__dirname, '../csv_output', 'output.csv');
+    const date = new Date();
+    const filename = path.join(__dirname, '../csv_output', `output-${date.getTime()}.csv`);
     const output = [];
 
     // Create Header-Row
