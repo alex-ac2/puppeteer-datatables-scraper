@@ -10,6 +10,7 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
   const page = await browser.newPage();
   await page.goto('https://www.google.com');
   
+  await page.waitForSelector('input[aria-label="Search"]');
   await page.focus('input[aria-label="Search"]');
   await page.keyboard.type(searchText);
   await page.click('input[aria-label="Google Search"]');
