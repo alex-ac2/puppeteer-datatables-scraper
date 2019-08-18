@@ -4,7 +4,7 @@
   "description": "Web scraper built using the Puppeteer library for extracting employee data from Datatables.net online example table",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "node server.js"
   },
   "keywords": [
@@ -22,5 +22,9 @@
   "dependencies": {
     "puppeteer": "^1.19.0",
     "string-similarity": "^3.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
   }
 }
