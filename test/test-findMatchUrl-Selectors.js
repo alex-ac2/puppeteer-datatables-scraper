@@ -75,6 +75,7 @@ describe ('Puppeteer-DataTables-Scraper:', () => {
       expect(matchUrl).to.equal('https://datatables.net/faqs/');
       done();
     });
+
     it('Match url should output https://datatables.net/', (done) => {
       const searchText = 'datatables';
       const matchUrl = findMatchUrl(searchText, searchResultsSample);
@@ -99,6 +100,7 @@ describe ('Puppeteer-DataTables-Scraper:', () => {
       .then(done, done)
       .catch(err => console.log(err));    
     });
+
     it('DataTables-Example-Table should output true', (done) => {
       puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async browser => {
         const page = await browser.newPage();
