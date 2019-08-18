@@ -1,9 +1,10 @@
 const puppeteer = require('puppeteer');
 const { findMatchUrl } = require('./utils/findMatchUrl.js');
+const { Employee } = require('./models/Employee');
 
 const searchText = 'datatables';
 
-// Connect Puppeteer to remote browser endpoint running to docker container
+// Connect Puppeteer to remote browser endpoint running on docker container
 puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async browser => {
   const page = await browser.newPage();
   await page.goto('https://www.google.com');
@@ -32,6 +33,29 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
   });
 
   console.log(tableHeadings); 
+
+  const employeeTableData = await page.evaluate( (EmployeeClassString) => { 
+    const Employee = new Function(' return (' + EmployeeClassString + ').apply(null, arguments)');
+    const employeeObjectArray = [];
+
+    // Iterate over table pages
+    document.querySelectorAll('#example_paginate > span > a.paginate_button').forEach( (element) => {
+      // Click on new table page
+      document.querySelector(`a[data-dt-idx="${element.innerHTML}"]`).click();
+      
+      document.querySelectorAll('#example > tbody > tr').forEach( (tr) => { 
+        const tableRowEntry = [];
+        tr.querySelectorAll('td').forEach( (td) => {
+          tableRowEntry.push(td.innerHTML);
+        })
+        employeeObjectArray.push(new Employee(...tableRowEntry));
+      });
+    });
+
+    return employeeObjectArray;
+  }, Employee.toString());
+
+  console.log('EMPLOYEE-TABLE-DATA: : ', employeeTableData);
 
   console.log('--- Web scraping complete ---');
   await browser.close();
