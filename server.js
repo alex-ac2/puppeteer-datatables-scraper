@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const { findMatchUrl } = require('./utils/findMatchUrl.js');
 
 const searchText = 'datatables';
 
@@ -17,8 +18,10 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
     return  Array.from(document.querySelectorAll('div.r > a')).map( (entry) => entry.href )
   })
   console.log('SearchResultsArray: ', searchResultsArray);
+  const matchUrl = findMatchUrl(searchText, searchResultsArray)
+  console.log('MATCH-URL: ', matchUrl);
 
-  console.log('complete');
+  console.log('--- Web scraping complete ---');
   await browser.close();
 }).catch((err) => {
   console.log('*** ERROR ***');
