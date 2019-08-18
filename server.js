@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const { findMatchUrl } = require('./utils/findMatchUrl.js');
 const { Employee } = require('./models/Employee');
+const { exportToCsv } = require('./utils/createCSV');
 
 const searchText = 'datatables';
 
@@ -56,6 +57,17 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
   }, Employee.toString());
 
   console.log('EMPLOYEE-TABLE-DATA: : ', employeeTableData);
+
+  const exportDataToCsv = new Promise( (resolve, reject) => {
+    exportToCsv(employeeTableData, (exportResult) => {
+      resolve(exportResult);
+    });
+  });
+
+  exportDataToCsv.then( (res) => {
+    console.log(res);
+  })
+
 
   console.log('--- Web scraping complete ---');
   await browser.close();
