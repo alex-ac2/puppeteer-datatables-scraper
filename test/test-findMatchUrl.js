@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const puppeteer = require('puppeteer');
 const { findMatchUrl } = require('../utils/findMatchUrl');
 
-const searchResultsArray = [ 
+const searchResultsSample = [ 
   'https://datatables.net/',
   'https://mdbootstrap.com/docs/jquery/tables/datatables/',
   'https://github.com/DataTables/DataTables',
@@ -18,7 +18,6 @@ const searchResultsArray = [
 describe ('Puppeteer-DataTables-Scraper:', () => {
 
   describe ('Google-HomePage-Selectors', () => {
-
     it('Random-Null-Selector should output false', (done) => {
       puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async browser => {
         const page = await browser.newPage();
@@ -72,13 +71,13 @@ describe ('Puppeteer-DataTables-Scraper:', () => {
   describe ('Find-Match-Url Module', () => {
     it('Match url should output https://datatables.net/faqs/', (done) => {
       const searchText = 'datatables faq';
-      const matchUrl = findMatchUrl(searchText, searchResultsArray);
+      const matchUrl = findMatchUrl(searchText, searchResultsSample);
       expect(matchUrl).to.equal('https://datatables.net/faqs/');
       done();
     });
     it('Match url should output https://datatables.net/', (done) => {
       const searchText = 'datatables';
-      const matchUrl = findMatchUrl(searchText, searchResultsArray);
+      const matchUrl = findMatchUrl(searchText, searchResultsSample);
       expect(matchUrl).to.equal('https://datatables.net/');
       done();
     });
