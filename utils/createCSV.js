@@ -18,7 +18,6 @@ module.exports = {
 
     objectArray.forEach( (object) => {
       const row = [];
-
       for (let key in object) {
         row.push(object[key]);
       }
