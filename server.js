@@ -11,8 +11,14 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
   await page.keyboard.type(searchText);
   await page.click('input[aria-label="Google Search"]');
 
-  console.log('complete');
+  // On google search results load
+  await page.waitForSelector('#search');
+  const searchResultsArray = await page.evaluate( () => {
+    return  Array.from(document.querySelectorAll('div.r > a')).map( (entry) => entry.href )
+  })
+  console.log('SearchResultsArray: ', searchResultsArray);
 
+  console.log('complete');
   await browser.close();
 }).catch((err) => {
   console.log('*** ERROR ***');
