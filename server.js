@@ -21,6 +21,18 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
   const matchUrl = findMatchUrl(searchText, searchResultsArray)
   console.log('MATCH-URL: ', matchUrl);
 
+  // Navigate to matchUrl
+  await page.click(`a[href="${matchUrl}"]`);
+  await page.waitForSelector('#example') // Wait for table to load
+
+  const tableHeadings = await page.evaluate( () => {
+    return Array.from(document.querySelectorAll('#example > thead > tr > th')).map( (th) => {
+      return th.innerHTML;
+    })
+  });
+
+  console.log(tableHeadings); 
+
   console.log('--- Web scraping complete ---');
   await browser.close();
 }).catch((err) => {
