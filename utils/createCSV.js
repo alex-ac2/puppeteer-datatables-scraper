@@ -6,7 +6,8 @@ module.exports = {
 
   exportToCsv: (objectArray, callback) => {
     const date = new Date();
-    const filename = path.join(__dirname, '../csv_output', `output-${date.getTime()}.csv`);
+    const timeStamp = date.getTime();
+    const filename = path.join(__dirname, '../csv_output', `output-${timeStamp}.csv`);
     const output = [];
 
     // Create Header-Row
@@ -25,7 +26,7 @@ module.exports = {
     });
 
     fs.writeFileSync(filename, output.join(os.EOL));
-    callback("Export to CSV complete");
+    callback({ status: "Export to CSV complete", fileName: `output-${timeStamp}.csv` });
   }
 
 }
