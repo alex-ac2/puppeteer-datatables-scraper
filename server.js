@@ -31,14 +31,6 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
   await page.click(`a[href="${matchUrl}"]`);
   await page.waitForSelector('#example') // Wait for table to load
 
-  const tableHeadings = await page.evaluate( () => {
-    return Array.from(document.querySelectorAll('#example > thead > tr > th')).map( (th) => {
-      return th.innerHTML;
-    })
-  });
-
-  console.log(tableHeadings); 
-
   const employeeTableData = await page.evaluate( (EmployeeClassString) => { 
     const Employee = new Function(' return (' + EmployeeClassString + ').apply(null, arguments)');
     const employeeObjectArray = [];
@@ -60,7 +52,7 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
     return employeeObjectArray;
   }, Employee.toString());
 
-  console.log('EMPLOYEE-TABLE-DATA: : ', employeeTableData);
+  // console.log('EMPLOYEE-TABLE-DATA: : ', employeeTableData);
 
   const exportDataToCsv = new Promise( (resolve, reject) => {
     exportToCsv(employeeTableData, (exportResult) => {
@@ -69,9 +61,9 @@ puppeteer.connect({ browserWSEndpoint: 'ws://localhost:8080' }).then(async brows
   });
 
   exportDataToCsv.then( (res) => {
-    console.log(res);
+    console.log(res.status);
+    console.log(`Employee data exported to ${res.fileName}`);
   })
-
 
   console.log('--- Web scraping complete ---');
   await browser.close();
